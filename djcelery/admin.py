@@ -285,7 +285,7 @@ class PeriodicTaskForm(forms.ModelForm):
     regtask = TaskChoiceField(label=_('Task (registered)'),
                               required=False)
     task = forms.CharField(label=_('Task (custom)'), required=False,
-                           max_length=200)
+                           max_length=191)
 
     class Meta:
         model = PeriodicTask

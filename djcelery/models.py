@@ -29,7 +29,7 @@ def cronexp(field):
 @python_2_unicode_compatible
 class TaskMeta(models.Model):
     """Task result/status."""
-    task_id = models.CharField(_('task id'), max_length=255, unique=True)
+    task_id = models.CharField(_('task id'), max_length=191, unique=True)
     status = models.CharField(
         _('state'),
         max_length=50, default=states.PENDING, choices=TASK_STATE_CHOICES,
@@ -66,7 +66,7 @@ class TaskMeta(models.Model):
 @python_2_unicode_compatible
 class TaskSetMeta(models.Model):
     """TaskSet result"""
-    taskset_id = models.CharField(_('group id'), max_length=255, unique=True)
+    taskset_id = models.CharField(_('group id'), max_length=191, unique=True)
     result = PickledObjectField()
     date_done = models.DateTimeField(_('created at'), auto_now=True)
     hidden = models.BooleanField(editable=False, default=False, db_index=True)
@@ -208,10 +208,10 @@ class PeriodicTasks(models.Model):
 @python_2_unicode_compatible
 class PeriodicTask(models.Model):
     name = models.CharField(
-        _('name'), max_length=200, unique=True,
+        _('name'), max_length=191, unique=True,
         help_text=_('Useful description'),
     )
-    task = models.CharField(_('task name'), max_length=200)
+    task = models.CharField(_('task name'), max_length=191)
     interval = models.ForeignKey(
         IntervalSchedule,
         null=True, blank=True, verbose_name=_('interval'),
@@ -231,14 +231,14 @@ class PeriodicTask(models.Model):
         help_text=_('JSON encoded keyword arguments'),
     )
     queue = models.CharField(
-        _('queue'), max_length=200, blank=True, null=True, default=None,
+        _('queue'), max_length=191, blank=True, null=True, default=None,
         help_text=_('Queue defined in CELERY_QUEUES'),
     )
     exchange = models.CharField(
-        _('exchange'), max_length=200, blank=True, null=True, default=None,
+        _('exchange'), max_length=191, blank=True, null=True, default=None,
     )
     routing_key = models.CharField(
-        _('routing key'), max_length=200, blank=True, null=True, default=None,
+        _('routing key'), max_length=191, blank=True, null=True, default=None,
     )
     expires = models.DateTimeField(
         _('expires'), blank=True, null=True,
@@ -304,7 +304,7 @@ signals.pre_save.connect(PeriodicTasks.changed, sender=PeriodicTask)
 
 
 class WorkerState(models.Model):
-    hostname = models.CharField(_('hostname'), max_length=255, unique=True)
+    hostname = models.CharField(_('hostname'), max_length=191, unique=True)
     last_heartbeat = models.DateTimeField(_('last heartbeat'), null=True,
                                           db_index=True)
 
@@ -342,7 +342,7 @@ class TaskState(models.Model):
     )
     task_id = models.CharField(_('UUID'), max_length=36, unique=True)
     name = models.CharField(
-        _('name'), max_length=200, null=True, db_index=True,
+        _('name'), max_length=191, null=True, db_index=True,
     )
     tstamp = models.DateTimeField(_('event received at'), db_index=True)
     args = models.TextField(_('Arguments'), null=True)
